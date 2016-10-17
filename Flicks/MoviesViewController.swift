@@ -11,8 +11,10 @@ import AFNetworking
 import MBProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
+    @IBOutlet weak var networkErrorView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    
     var movies: [NSDictionary]?
     
     override func viewDidLoad() {
@@ -39,7 +41,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 MBProgressHUD.hide(for: self.view, animated: true)
                 
                 if let requestError = errorOrNil {
-                    NSLog("Could not complete request: \(requestError)")
+                    self.networkErrorView.isHidden = false
                 } else {
                     if let data = dataOrNil {
                         if let responseDictionary = try! JSONSerialization.jsonObject(
