@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -30,8 +31,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             delegateQueue:OperationQueue.main
         )
         
+        // Show loading sign
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         let task : URLSessionDataTask = session.dataTask(with: request,
             completionHandler: { (dataOrNil, responseOrNil, errorOrNil) in
+                MBProgressHUD.hide(for: self.view, animated: true)
+                
                 if let requestError = errorOrNil {
                     NSLog("Could not complete request: \(requestError)")
                 } else {
